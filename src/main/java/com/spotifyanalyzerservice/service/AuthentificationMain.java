@@ -1,9 +1,7 @@
 package com.spotifyanalyzerservice.service;
 
-import com.wrapper.spotify.SpotifyHttpManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,10 +18,16 @@ public class AuthentificationMain {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(AuthentificationMain.class, args);
         callSpotifyService();
+        callSpotifyService2();
     }
 
     @GetMapping(path = "/auth")
     public static String callSpotifyService() {
+        return SpotifyService.authenticate(CLIENT_ID, REDIRECT_URL_HEROKU);
+    }
+
+    @GetMapping(path = "/en/auth")
+    public static String callSpotifyService2() {
         return SpotifyService.authenticate(CLIENT_ID, REDIRECT_URL_HEROKU);
     }
 }
