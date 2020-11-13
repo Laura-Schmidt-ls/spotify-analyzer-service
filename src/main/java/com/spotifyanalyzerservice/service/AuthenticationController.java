@@ -43,13 +43,9 @@ public class AuthenticationController implements Const, Scopes {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
 //          .state("x4xkmn9pu3j6ukrs8n")
                 .scope(USER_READ_RECENTLY_PLAYED + ", "
-                        + USER_READ_PLAYBACK_STATE + ", "
                         + USER_TOP_READ + ", "
                         + USER_READ_CURRENTLY_PLAYING + ", "
-                        + USER_FOLLOW_READ + ", "
-                        + USER_READ_PLAYBACK_POSITION + ", "
                         + PLAYLIST_READ_PRIVATE + ", "
-                        + USER_READ_EMAIL + ", "
                         + USER_READ_PRIVATE + ", "
                         + USER_LIBRARY_READ + ", "
                         + PLAYLIST_READ_COLLABORATIVE)
