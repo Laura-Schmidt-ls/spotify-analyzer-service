@@ -69,20 +69,24 @@ public class AuthenticationController implements Const, Scopes {
                 .build();
         System.out.println("Code: " + userCode);
 
+        String accessToken = "";
+        String refreshToken = "";
+        String expiresIn  = "";
+
         try {
             final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
-
             // Set access and refresh token for further "spotifyApi" object usage
-            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+            accessToken = authorizationCodeCredentials.getAccessToken();
+            refreshToken = authorizationCodeCredentials.getRefreshToken();
+            expiresIn = authorizationCodeCredentials.getExpiresIn().toString();
 
-            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
         } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        return "{\"access-token\": \"" + spotifyApi.getAccessToken() + "\", "
-                + "\"refresh-token\": \"" + spotifyApi.getRefreshToken() + "\"}";
+        return "{\"access-token\": \"" + accessToken + "\", "
+                + "\"refresh-token\": \"" + refreshToken + "\"}"
+                + "\"expires-in\": \"" + expiresIn + "\"}";
     }
 
     /**
@@ -91,28 +95,20 @@ public class AuthenticationController implements Const, Scopes {
      * @return refreshed access- and refresh-token as JSON String
      */
     @GetMapping("refresh")
-    public String refreshTokens() {
+    public String refreshTokens(@RequestParam("refresh-token") String refreshToken) {
+        spotifyApi.setRefreshToken(refreshToken);
         AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh().build();
+
+        String accessToken = "";
 
         try {
             final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRefreshRequest.execute();
-            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+            accessToken = authorizationCodeCredentials.getAccessToken();
         } catch (ParseException | SpotifyWebApiException | IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        return "{\"access-token\": \"" + spotifyApi.getAccessToken() + "\", "
-                + "\"refresh-token\": \"" + spotifyApi.getRefreshToken() + "\"}";
-    }
-
-    /**
-     * Getting the access- and refresh-token.
-     *
-     * @return access- and refresh-token as JSON String
-     */
-    @GetMapping("tokens")
-    public String getTokens() {
-        return "{\"access-token\": \"" + spotifyApi.getAccessToken() + "\", "
-                + "\"refresh-token\": \"" + spotifyApi.getRefreshToken() + "\"}";
+        return "{\"access-token\": \"" + accessToken + "\", "
+                + "\"refresh-token\": \"" + refreshToken + "\"}";
     }
 }
