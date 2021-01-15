@@ -43,7 +43,7 @@ public class AuthenticationController implements Const, Scopes {
      */
     @GetMapping("login")
     @ResponseBody
-    public String spotifyLogin(@RequestParam("state") String state) {
+    public String spotifyLogin(@RequestHeader("state") String state) {
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
             .state(state)
             .scope(USER_READ_RECENTLY_PLAYED + ", "
@@ -94,7 +94,7 @@ public class AuthenticationController implements Const, Scopes {
      * @return access-token, refresh-token and expiresIn as JSON-String
      */
     @GetMapping("tokens")
-    public String getTokens(@RequestParam("state") String state) {
+    public String getTokens(@RequestHeader("state") String state) {
         if(!credentialsMap.containsKey(state)) {
             return "";
         }
@@ -108,7 +108,7 @@ public class AuthenticationController implements Const, Scopes {
      * @return refreshed access- and refresh-token as JSON String
      */
     @GetMapping("refresh")
-    public String refreshTokens(@RequestParam("state") String state) {
+    public String refreshTokens(@RequestHeader("state") String state) {
         spotifyApi.setRefreshToken(credentialsMap.get(state).getRefreshToken());
         AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh().build();
 
