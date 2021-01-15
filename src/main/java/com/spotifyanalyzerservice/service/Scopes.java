@@ -1,7 +1,7 @@
 package com.spotifyanalyzerservice.service;
 
 /**
- * Authorization Scopes.
+ * Authorization Scopes needed for authentication.
  *
  * @see <a href="https://developer.spotify.com/documentation/general/guides/scopes/">Spotify-Scopes</a>
  */
