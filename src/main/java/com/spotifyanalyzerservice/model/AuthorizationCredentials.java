@@ -17,7 +17,7 @@ public class AuthorizationCredentials {
 
     public String toJSONString() {
         return "{\"access-token\": \"" + this.accessToken + "\", "
-                + "\"refresh-token\": \"" + this.refreshToken + "\"}"
+                + "\"refresh-token\": \"" + this.refreshToken + "\", "
                 + "\"expires-in\": \"" + this.expiresIn + "\"}";
     }
 
