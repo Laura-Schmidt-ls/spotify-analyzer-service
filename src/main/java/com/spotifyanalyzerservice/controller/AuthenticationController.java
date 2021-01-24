@@ -1,5 +1,8 @@
-package com.spotifyanalyzerservice.service;
+package com.spotifyanalyzerservice.controller;
 
+import com.spotifyanalyzerservice.constants.Const;
+import com.spotifyanalyzerservice.constants.Scopes;
+import com.spotifyanalyzerservice.model.AuthorizationCredentials;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
@@ -108,22 +111,20 @@ public class AuthenticationController implements Const, Scopes {
      * @return refreshed access- and refresh-token as JSON String
      */
     @GetMapping("refresh")
-    public String refreshTokens(@RequestHeader("state") String state) {
-        spotifyApi.setRefreshToken(credentialsMap.get(state).getRefreshToken());
+    public String refreshTokens(@RequestHeader("refresh-token") String refreshToken) {
+        spotifyApi.setRefreshToken(refreshToken);
         AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh().build();
-
+        AuthorizationCredentials authCredentials = new AuthorizationCredentials();
         try {
             final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRefreshRequest.execute();
-            if(credentialsMap.containsKey(state)) {
-                AuthorizationCredentials authCredentials = new AuthorizationCredentials(authorizationCodeCredentials.getAccessToken(),
-                        authorizationCodeCredentials.getRefreshToken(),
-                        authorizationCodeCredentials.getExpiresIn().toString());
-                credentialsMap.put(state, authCredentials);
-            }
+
+            authCredentials.setAccessToken(authorizationCodeCredentials.getAccessToken());
+            authCredentials.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+            authCredentials.setExpiresIn(authorizationCodeCredentials.getExpiresIn().toString());
         } catch (ParseException | SpotifyWebApiException | IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        return credentialsMap.get(state).toJSONString();
+        return authCredentials.toJSONString();
     }
 }

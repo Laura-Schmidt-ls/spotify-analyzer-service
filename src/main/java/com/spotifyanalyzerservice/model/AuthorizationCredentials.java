@@ -1,9 +1,13 @@
-package com.spotifyanalyzerservice.service;
+package com.spotifyanalyzerservice.model;
 
 public class AuthorizationCredentials {
     String accessToken;
     String refreshToken;
     String expiresIn;
+
+    public AuthorizationCredentials() {
+
+    }
 
     public AuthorizationCredentials(String accessToken, String refreshToken, String expiresIn) {
         this.accessToken = accessToken;

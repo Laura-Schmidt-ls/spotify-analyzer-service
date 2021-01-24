@@ -1,4 +1,4 @@
-package com.spotifyanalyzerservice.service;
+package com.spotifyanalyzerservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

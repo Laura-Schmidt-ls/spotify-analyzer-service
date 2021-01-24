@@ -1,4 +1,4 @@
-package com.spotifyanalyzerservice.service;
+package com.spotifyanalyzerservice.constants;
 
 /**
  * Authorization Scopes needed for authentication.

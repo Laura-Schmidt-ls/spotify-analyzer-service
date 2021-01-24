@@ -1,4 +1,4 @@
-package com.spotifyanalyzerservice.service;
+package com.spotifyanalyzerservice.constants;
 
 public interface Const {
     String CLIENT_ID = "0389937726e547e49bcf1302d5a5e758";
