@@ -11,6 +11,7 @@ import com.wrapper.spotify.requests.authorization.authorization_code.Authorizati
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -126,5 +127,11 @@ public class AuthenticationController implements Const, Scopes {
         }
 
         return authCredentials.toJSONString();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("lifecheck")
+    public String lifecheck() {
+        return "Ok";
     }
 }
